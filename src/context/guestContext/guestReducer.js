@@ -2,7 +2,11 @@ import {
     TOGGLE_FILTER,
     SEARCH_GUEST,
     CLEAR_SEARCH,
-    ADD_GUEST
+    ADD_GUEST,
+    REMOVE_GUEST,
+    UPDATE_GUEST,
+    EDIT_GUEST,
+    CLEAR_EDIT
 } from './../type'
 
 export default (state, {type, payload}) => {
@@ -11,6 +15,26 @@ export default (state, {type, payload}) => {
             return{
                 ...state,
                 guests:[...state.guests, payload] //payload is the new one
+            }
+        case EDIT_GUEST:
+            return{
+                ...state,
+                editable: payload
+            }
+        case CLEAR_EDIT:
+            return{
+                ...state,
+                editable: null
+            }
+        case REMOVE_GUEST:
+            return{
+                ...state,
+                guests: [...state.guests.filter(guest => guest.id !== payload)]
+            }
+        case UPDATE_GUEST:
+            return{
+                ...state,
+                guests: state.guests.map(guest => guest.id === payload.id ? payload : guest)
             }
         case TOGGLE_FILTER:
             return{

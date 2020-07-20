@@ -5,14 +5,19 @@ import {
     TOGGLE_FILTER,
     SEARCH_GUEST,
     CLEAR_SEARCH,
-    ADD_GUEST
-
+    ADD_GUEST,
+    REMOVE_GUEST,
+    UPDATE_GUEST,
+    EDIT_GUEST,
+    CLEAR_GUEST,
+    CLEAR_EDIT
 } from './../type'
 
 const GuestState = (props) => {
     const initialState = {
         filterGuests: false, //when we turn this true, the filter in guests.js will filter on isconfirmed
         search: null, //search is null by deafult
+        editable: null,
         guests:[
             {
                 id: 1,
@@ -44,6 +49,7 @@ const GuestState = (props) => {
    // ACTIONS
 
    const addGuest = (guest) => {
+    //    console.log("meh")
        guest.id = Date.now() //lazy uuid
        guest.isConfirmed = false
        dispatch({
@@ -51,6 +57,33 @@ const GuestState = (props) => {
            payload: guest
        })
    } 
+
+   const removeGuest = (id) => {
+       dispatch({
+           type: REMOVE_GUEST,
+           payload: id
+       })
+   }
+
+   const updateGuest = (guest) => {
+       dispatch({
+           type: UPDATE_GUEST,
+           payload: guest
+       })
+   }
+
+   const editGuest = (guest) => {
+       dispatch({
+           type: EDIT_GUEST,
+           payload: guest
+       })
+   }
+
+   const clearEdit = () => {
+    dispatch({
+        type: CLEAR_EDIT
+    })
+}
 
    const toggleFilter = () => {
        dispatch({
@@ -77,10 +110,15 @@ const GuestState = (props) => {
                 guests: state.guests,
                 filterGuests: state.filterGuests,
                 search: state.search,
+                editable: state.editable,
+                addGuest,
+                removeGuest,
+                updateGuest,
                 toggleFilter,
                 searchGuest,
                 clearSearch,
-                addGuest
+                clearEdit,
+                editGuest
             }}
         >{props.children}</GuestContext.Provider>
     )
