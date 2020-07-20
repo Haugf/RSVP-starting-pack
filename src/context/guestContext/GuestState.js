@@ -4,7 +4,8 @@ import guestReducer from './guestReducer'
 import {
     TOGGLE_FILTER,
     SEARCH_GUEST,
-    CLEAR_SEARCH
+    CLEAR_SEARCH,
+    ADD_GUEST
 
 } from './../type'
 
@@ -42,6 +43,15 @@ const GuestState = (props) => {
 
    // ACTIONS
 
+   const addGuest = (guest) => {
+       guest.id = Date.now() //lazy uuid
+       guest.isConfirmed = false
+       dispatch({
+           type: ADD_GUEST,
+           payload: guest
+       })
+   } 
+
    const toggleFilter = () => {
        dispatch({
            type: TOGGLE_FILTER
@@ -69,7 +79,8 @@ const GuestState = (props) => {
                 search: state.search,
                 toggleFilter,
                 searchGuest,
-                clearSearch
+                clearSearch,
+                addGuest
             }}
         >{props.children}</GuestContext.Provider>
     )
